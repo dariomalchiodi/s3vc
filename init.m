@@ -236,7 +236,7 @@ svmPatternsQ[patterns_]:=Block[
 ];
 
 (* svmGetKernel takes the definition of a kernel and returns a list of the
-   corresponding definitions in Mathematica, AMPL and Python. The argument
+   corresponding definitions in Mathematica, AMPL, Python and svmLight. The argument
    can be:
   "linear"                                            linear kernel
   {"polynomial", p}                                   polynomial kernel of degree p
