@@ -1,0 +1,116 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      2906,        106]
+NotebookOptionsPosition[      2154,         73]
+NotebookOutlinePosition[      2509,         89]
+CellTagsIndexPosition[      2466,         86]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData["$UserBaseDirectory"], "Input",
+ CellChangeTimes->{{3.559625487316283*^9, 3.559625491679728*^9}}],
+
+Cell[BoxData["\<\"/Users/malchiodi/Library/Mathematica\"\>"], "Output",
+ CellChangeTimes->{3.559625492512701*^9, 3.559625941718759*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FileNameJoin", "[", 
+  RowBox[{"{", 
+   RowBox[{"\"\<Applications\>\"", ",", " ", "\"\<svMathematica\>\""}], "}"}],
+   "]"}]], "Input",
+ CellChangeTimes->{{3.55962587334832*^9, 3.559625916865637*^9}}],
+
+Cell[BoxData["\<\"Applications/svMathematica\"\>"], "Output",
+ CellChangeTimes->{{3.559625898292252*^9, 3.5596259424556313`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FileNameJoin", "[", 
+  RowBox[{"{", 
+   RowBox[{"%%", ",", "%"}], "}"}], "]"}]], "Input",
+ CellChangeTimes->{{3.559625927341921*^9, 3.5596259384126987`*^9}}],
+
+Cell[BoxData["\<\"/Users/malchiodi/Library/Mathematica/Applications/\
+svMathematica\"\>"], "Output",
+ CellChangeTimes->{{3.5596259387987337`*^9, 3.559625943055256*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["$PathnameSeparator"], "Input",
+ CellChangeTimes->{{3.5596260773881693`*^9, 3.5596260855526857`*^9}}],
+
+Cell[BoxData["\<\"/\"\>"], "Output",
+ CellChangeTimes->{{3.5596260808932047`*^9, 3.559626086054044*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["$BaseDirectory"], "Input",
+ CellChangeTimes->{{3.559626115384645*^9, 3.5596261614722757`*^9}}],
+
+Cell[BoxData["\<\"/Library/Mathematica\"\>"], "Output",
+ CellChangeTimes->{{3.5596261565457487`*^9, 3.559626161955661*^9}}]
+}, Open  ]]
+},
+WindowSize->{740, 752},
+WindowMargins->{{Automatic, 0}, {Automatic, 41}},
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (November 6, \
+2010)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 110, 1, 27, "Input"],
+Cell[692, 25, 135, 1, 27, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[864, 31, 224, 5, 27, "Input"],
+Cell[1091, 38, 129, 1, 27, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1257, 44, 181, 4, 27, "Input"],
+Cell[1441, 50, 168, 2, 27, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1646, 57, 114, 1, 27, "Input"],
+Cell[1763, 60, 104, 1, 27, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1904, 66, 108, 1, 27, "Input"],
+Cell[2015, 69, 123, 1, 27, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
