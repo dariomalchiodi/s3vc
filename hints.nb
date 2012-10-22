@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[      6005,        198]
-NotebookOptionsPosition[      4791,        149]
-NotebookOutlinePosition[      5166,        166]
-CellTagsIndexPosition[      5123,        163]
+NotebookDataLength[      8133,        262]
+NotebookOptionsPosition[      6560,        200]
+NotebookOutlinePosition[      6927,        216]
+CellTagsIndexPosition[      6884,        213]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -23,9 +23,10 @@ Cell[CellGroupData[{
 Cell[BoxData["$UserBaseDirectory"], "Input",
  CellChangeTimes->{{3.559625487316283*^9, 3.559625491679728*^9}}],
 
-Cell[BoxData["\<\"/Users/malchiodi/Library/Mathematica\"\>"], "Output",
+Cell[BoxData["\<\"C:\\\\Users\\\\Tommaso\\\\AppData\\\\Roaming\\\\Mathematica\
+\"\>"], "Output",
  CellChangeTimes->{3.559625492512701*^9, 3.559625941718759*^9, 
-  3.559639120612262*^9, 3.559639203013365*^9}]
+  3.559639120612262*^9, 3.559639203013365*^9, 3.5599218350450773`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -38,10 +39,10 @@ Cell[BoxData[
  CellChangeTimes->{{3.55962587334832*^9, 3.559625916865637*^9}, {
   3.559639134175712*^9, 3.559639135335226*^9}}],
 
-Cell[BoxData["\<\"Applications/s3vc\"\>"], "Output",
+Cell[BoxData["\<\"Applications\\\\s3vc\"\>"], "Output",
  CellChangeTimes->{{3.559625898292252*^9, 3.5596259424556313`*^9}, {
-  3.559639127579115*^9, 3.559639139939048*^9}, {3.559639200106756*^9, 
-  3.559639204666849*^9}}]
+   3.559639127579115*^9, 3.559639139939048*^9}, {3.559639200106756*^9, 
+   3.559639204666849*^9}, 3.559921840255375*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -55,11 +56,12 @@ Cell[BoxData[
  CellChangeTimes->{{3.559625927341921*^9, 3.5596259384126987`*^9}, {
   3.559639251995626*^9, 3.559639326049088*^9}}],
 
-Cell[BoxData["\<\"/Users/malchiodi/Library/Mathematica/Applications/s3vc\"\>"]\
-, "Output",
+Cell[BoxData["\<\"C:\\\\Users\\\\Tommaso\\\\AppData\\\\Roaming\\\\Mathematica\
+\\\\Applications\\\\s3vc\"\>"], "Output",
  CellChangeTimes->{{3.5596259387987337`*^9, 3.559625943055256*^9}, {
-  3.559639191169922*^9, 3.5596392060880632`*^9}, {3.559639256583069*^9, 
-  3.559639271885315*^9}, {3.559639308729227*^9, 3.559639326639806*^9}}]
+   3.559639191169922*^9, 3.5596392060880632`*^9}, {3.559639256583069*^9, 
+   3.559639271885315*^9}, {3.559639308729227*^9, 3.559639326639806*^9}, 
+   3.5599218425165043`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -67,8 +69,9 @@ Cell[CellGroupData[{
 Cell[BoxData["$PathnameSeparator"], "Input",
  CellChangeTimes->{{3.5596260773881693`*^9, 3.5596260855526857`*^9}}],
 
-Cell[BoxData["\<\"/\"\>"], "Output",
- CellChangeTimes->{{3.5596260808932047`*^9, 3.559626086054044*^9}}]
+Cell[BoxData["\<\"\\\\\"\>"], "Output",
+ CellChangeTimes->{{3.5596260808932047`*^9, 3.559626086054044*^9}, 
+   3.559921844276605*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -76,8 +79,19 @@ Cell[CellGroupData[{
 Cell[BoxData["$BaseDirectory"], "Input",
  CellChangeTimes->{{3.559626115384645*^9, 3.5596261614722757`*^9}}],
 
-Cell[BoxData["\<\"/Library/Mathematica\"\>"], "Output",
- CellChangeTimes->{{3.5596261565457487`*^9, 3.559626161955661*^9}}]
+Cell[BoxData["\<\"C:\\\\ProgramData\\\\Mathematica\"\>"], "Output",
+ CellChangeTimes->{{3.5596261565457487`*^9, 3.559626161955661*^9}, 
+   3.559921845533677*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", "$OperatingSystem"}]], "Input",
+ CellChangeTimes->{{3.55992186411974*^9, 3.559921876604454*^9}}],
+
+Cell[BoxData["\<\"Windows\"\>"], "Output",
+ CellChangeTimes->{{3.5599218735102773`*^9, 3.559921877034479*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -85,35 +99,46 @@ Cell[CellGroupData[{
 Cell[BoxData[
  RowBox[{"If", "[", 
   RowBox[{
-   RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Win\>\""}], ",", 
+   RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Windows\>\""}], ",", 
    "\[IndentingNewLine]", 
    RowBox[{"$DirectorySeparator", "=", "\"\<; \>\""}], ",", 
    "\[IndentingNewLine]", 
    RowBox[{"$DirectorySeparator", "=", " ", "\"\<: \>\""}]}], 
   "\[IndentingNewLine]", "]"}]], "Input",
  CellChangeTimes->{{3.55963935568705*^9, 3.5596393988550053`*^9}, {
-  3.559639648761791*^9, 3.559639652550663*^9}}],
+  3.559639648761791*^9, 3.559639652550663*^9}, {3.559921880062652*^9, 
+  3.5599218838328676`*^9}}],
 
 Cell[BoxData["\<\"; \"\>"], "Output",
- CellChangeTimes->{3.559639403712487*^9}]
+ CellChangeTimes->{3.559639403712487*^9, 3.5599218471757708`*^9, 
+  3.5599218846019115`*^9}]
 }, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"If", "[", 
   RowBox[{
-   RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Win\>\""}], ",", 
+   RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Windows\>\""}], ",", 
    "\[IndentingNewLine]", 
    RowBox[{"$environmentCommand", "=", "\"\<set\>\""}], ",", 
    "\[IndentingNewLine]", 
    RowBox[{"$environmentCommand", "=", " ", "\"\<export\>\""}]}], 
   "\[IndentingNewLine]", "]"}]], "Input",
  CellChangeTimes->{{3.55963935568705*^9, 3.5596393988550053`*^9}, {
-   3.5596394327113333`*^9, 3.559639467516902*^9}, 3.5596395934908323`*^9}],
+   3.5596394327113333`*^9, 3.559639467516902*^9}, 3.5596395934908323`*^9, {
+   3.559921887685088*^9, 3.5599218881301136`*^9}}],
+
+Cell[BoxData["\<\"set\"\>"], "Output",
+ CellChangeTimes->{3.559921888444131*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"If", "[", 
   RowBox[{
-   RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Win\>\""}], ",", 
+   RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Windows\>\""}], ",", 
    "\[IndentingNewLine]", 
    RowBox[{"$commandSeparator", "=", "\"\< & \>\""}], ",", 
    "\[IndentingNewLine]", 
@@ -121,15 +146,21 @@ Cell[BoxData[
   "\[IndentingNewLine]", "]"}]], "Input",
  CellChangeTimes->{{3.55963935568705*^9, 3.5596393988550053`*^9}, {
    3.5596394327113333`*^9, 3.559639467516902*^9}, 3.5596395934908323`*^9, {
-   3.559639695326703*^9, 3.5596397097806597`*^9}}],
+   3.559639695326703*^9, 3.5596397097806597`*^9}, {3.559921891636314*^9, 
+   3.55992189244636*^9}}],
+
+Cell[BoxData["\<\" & \"\>"], "Output",
+ CellChangeTimes->{3.559921892653372*^9}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData["$TemporaryDirectory"], "Input",
  CellChangeTimes->{{3.559639801601425*^9, 3.559639806599023*^9}}],
 
-Cell[BoxData["\<\"/tmp\"\>"], "Output",
- CellChangeTimes->{3.5596398070810137`*^9}]
+Cell[BoxData["\<\"C:\\\\Users\\\\Tommaso\\\\AppData\\\\Local\\\\Temp\"\>"], \
+"Output",
+ CellChangeTimes->{3.5596398070810137`*^9, 3.5599218959745617`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -138,20 +169,39 @@ Cell[BoxData[
  RowBox[{"Directory", "[", "]"}]], "Input",
  CellChangeTimes->{{3.559640131405867*^9, 3.559640133310339*^9}}],
 
-Cell[BoxData["\<\"/Users/malchiodi\"\>"], "Output",
- CellChangeTimes->{3.5596401356995573`*^9}]
+Cell[BoxData["\<\"C:\\\\Users\\\\Tommaso\\\\Documents\"\>"], "Output",
+ CellChangeTimes->{3.5596401356995573`*^9, 3.559921899203747*^9}]
 }, Open  ]],
+
+Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{
   RowBox[{"<<", "s3vc`"}], "\.08"}]], "Input",
- CellChangeTimes->{{3.559640695635374*^9, 3.559640704020732*^9}}]
+ CellChangeTimes->{{3.559640695635374*^9, 3.559640704020732*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Get", "::", "\<\"noopen\"\>"}], 
+  RowBox[{
+  ":", " "}], "\<\"\\!\\(\\*StyleBox[\\\"\\\\\\\"Cannot open \\\\\\\"\\\", \\\
+\"MT\\\"]\\)\[NoBreak]\\!\\(\\*StyleBox[\\!\\(\\\"s3vc`\\\"\\), \
+\\\"MT\\\"]\\)\[NoBreak]\\!\\(\\*StyleBox[\\\"\\\\\\\".\\\\\\\"\\\", \\\"MT\\\
+\"]\\) \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/noopen\\\", ButtonNote -> \
+\\\"Get::noopen\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.5599219014818773`*^9}],
+
+Cell[BoxData[
+ RowBox[{"\.08", " ", "$Failed"}]], "Output",
+ CellChangeTimes->{3.5599219014898777`*^9}]
+}, Open  ]]
 },
-WindowSize->{740, 752},
-WindowMargins->{{Automatic, 0}, {Automatic, 41}},
+WindowSize->{740, 730},
+WindowMargins->{{Automatic, 91}, {-43, Automatic}},
 ShowSelection->True,
-FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
-2011)",
+FrontEndVersion->"7.0 for Microsoft Windows (64-bit) (November 10, 2008)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -166,40 +216,54 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[579, 22, 110, 1, 27, "Input"],
-Cell[692, 25, 182, 2, 27, "Output"]
+Cell[579, 22, 110, 1, 31, "Input"],
+Cell[692, 25, 231, 3, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[911, 32, 264, 6, 27, "Input"],
-Cell[1178, 40, 218, 3, 27, "Output"]
+Cell[960, 33, 264, 6, 31, "Input"],
+Cell[1227, 41, 245, 3, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1433, 48, 300, 7, 27, "Input"],
-Cell[1736, 57, 305, 4, 27, "Output"]
+Cell[1509, 49, 300, 7, 31, "Input"],
+Cell[1812, 58, 364, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2078, 66, 114, 1, 27, "Input"],
-Cell[2195, 69, 104, 1, 27, "Output"]
+Cell[2213, 68, 114, 1, 31, "Input"],
+Cell[2330, 71, 133, 2, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2336, 75, 108, 1, 27, "Input"],
-Cell[2447, 78, 123, 1, 27, "Output"]
+Cell[2500, 78, 108, 1, 31, "Input"],
+Cell[2611, 81, 161, 2, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2607, 84, 447, 10, 73, "Input"],
-Cell[3057, 96, 79, 1, 27, "Output"]
-}, Open  ]],
-Cell[3151, 100, 479, 10, 73, "Input"],
-Cell[3633, 112, 523, 11, 73, "Input"],
-Cell[CellGroupData[{
-Cell[4181, 127, 111, 1, 27, "Input"],
-Cell[4295, 130, 83, 1, 27, "Output"]
+Cell[2809, 88, 142, 2, 52, "Input"],
+Cell[2954, 92, 110, 1, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[4415, 136, 123, 2, 27, "Input"],
-Cell[4541, 140, 95, 1, 27, "Output"]
+Cell[3101, 98, 502, 11, 92, "Input"],
+Cell[3606, 111, 130, 2, 30, "Output"]
 }, Open  ]],
-Cell[4651, 144, 136, 3, 27, "Input"]
+Cell[CellGroupData[{
+Cell[3773, 118, 535, 11, 92, "Input"],
+Cell[4311, 131, 80, 1, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4428, 137, 576, 12, 92, "Input"],
+Cell[5007, 151, 80, 1, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5124, 157, 111, 1, 31, "Input"],
+Cell[5238, 160, 155, 2, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5430, 167, 123, 2, 31, "Input"],
+Cell[5556, 171, 136, 1, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5729, 177, 136, 3, 31, "Input"],
+Cell[5868, 182, 570, 11, 21, "Message"],
+Cell[6441, 195, 103, 2, 30, "Output"]
+}, Open  ]]
 }
 ]
 *)
