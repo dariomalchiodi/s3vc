@@ -1,20 +1,20 @@
 (* ::Package:: *)
 
-(* : Title : svMathematica *)
+(* : Title : s3vc *)
 
-(* : Context : svMathematica *)
+(* : Context : s3vc *)
 
-(* : Author : Dario Malchiodi *)
+(* : Author : Tommaso Legnani, Dario Malchiodi *)
 
-(* : Summary : This is an implementation of SVM *)
+(* : Summary : This is an implementation of semi supervised SVM classification  *)
 
 (* : Package Version : 0.8 *)
 
-(* : Mathematica Version : 6.0 *)
+(* : Mathematica Version : 7.0 *)
 
-(* : Keywords : SVM, Machine learning *)
+(* : Keywords : SVM, Machine learning, semi supervised classification *)
 
-(* : ToDo: parameter selection, LOO, cross-validation, error bounds, kernel matrix values, clustering, data set formats
+(* : ToDo: 
 *)
 
 
@@ -38,19 +38,13 @@ Unprotect[
   negativeColor,
   positiveSize,
   negativeSize,
-  svmClassification,
-  svmClassificationMaximize,
-  svmClassificationAMPL,
-  svmClassificationPython,
-  svmClassificationSVMLight, 	
-  svmGetClassifier,
-  svmClassificationSamplePlot,
-  svmRegressionSamplePlot,
-  svmRegression,
-  svmRegressionMaximize,
-  svmRegressionAMPL,
-  svmRegressionPython,
-  lambda,
+  s3vmClassification,
+  s3vmClassificationMaximize,
+  s3vmClassificationAMPL,
+  s3vmClassificationPython,
+  s3vmClassificationSVMLight, 	
+  s3vmGetClassifier,
+  s3vmClassificationSamplePlot,
   matrixInverter,
   pythonInverter,
   classifierOutput,
@@ -59,53 +53,32 @@ Unprotect[
   pattern
 ];
 
-svmClassification::usage = "svmClassification[x, y] returns a classifier for points in x whose labels are in y";
-svmClassificationMaximize::usage = "svmClassificationMaximize[x, y] returns a classifier for points in x whose labels are in y; optimization problem is handled through NMaximize ";
-svmClassificationAMPL::usage = "svmClassificationAmpl[x, y] returns a classifier for patterns in x whose labels are in y; optimizazion problem is handled through AMPL/snopt";
-svmClassificationPython::usage = "svmClassificationPyton[x, y] returns a classifier for patterns in x whose labels are in y; optimizazion problem is handled through Python/cvxopt";
-svmClassificationSVMLight::usage = "svmClassificationSVMLight[x, y] returns a classifier for patterns in x whose labels are in y; optimizazion problem is handled through SVMLight";
-svmGetClassifier::usage = "svmGetClassifier[x, y, a] returns a classifier for patterns in x whose labels are in y, using values in a as optimal lagrange multiplier values";
-svmClassificationSamplePlot::usage = "svmClassificationSamplePlot[x, y] returns a graphic object corresponding to the scatter plot of patterns in x colored according to label values in y";
-svmRegressionSamplePlot::"usage" = "svmRegressionSamplePlot[x, y] returns a graphic object corresponding to the scatter plot of patterns in x, augmented with labels in y";
-svmDecisionFunctionPlot::usage = "svmDecisionFunctionPlot[f, {x, xmin, xmax} [,{y, ymin, ymax} [,{z, zmin, zmax}]]] returns a graphic object corresopnding to the decision function plot f";
-svmRegression::usage = "svmRegression[x, y] returns a regressor for patterns in x whose labels are in y";
-svmRidgeRegression::usage = "svmRidgeRegression[x, y] returns a ridge regressor for patterns in x whose labels are in y";
-svmLinearInsensitiveRegression::usage = "svmLinearInsensitiveRegression[x, y] returns a linear epsilon-insensitive regressor for patterns in x whose labels are in y";
+s3vmClassification::usage = "s3vmClassification[x, y] returns a classifier for points in x whose labels are in y";
+s3vmClassificationMaximize::usage = "s3vmClassificationMaximize[x, y] returns a classifier for points in x whose labels are in y; optimization problem is handled through NMaximize ";
+s3vmClassificationAMPL::usage = "s3vmClassificationAmpl[x, y] returns a classifier for patterns in x whose labels are in y; optimizazion problem is handled through AMPL/snopt";
+s3vmClassificationPython::usage = "s3vmClassificationPyton[x, y] returns a classifier for patterns in x whose labels are in y; optimizazion problem is handled through Python/cvxopt";
+s3vmClassificationSVMLight::usage = "s3vmClassificationSVMLight[x, y] returns a classifier for patterns in x whose labels are in y; optimizazion problem is handled through SVMLight";
+s3vmGetClassifier::usage = "s3vmGetClassifier[x, y, a] returns a classifier for patterns in x whose labels are in y, using values in a as optimal lagrange multiplier values";
+s3vmClassificationSamplePlot::usage = "s3vmClassificationSamplePlot[x, y] returns a graphic object corresponding to the scatter plot of patterns in x colored according to label values in y";
+s3vmRegressionSamplePlot::"usage" = "s3vmRegressionSamplePlot[x, y] returns a graphic object corresponding to the scatter plot of patterns in x, augmented with labels in y";
+s3vmDecisionFunctionPlot::usage = "s3vmDecisionFunctionPlot[f, {x, xmin, xmax} [,{y, ymin, ymax} [,{z, zmin, zmax}]]] returns a graphic object corresopnding to the decision function plot f";
 
-Options[svmClassification]={
+Options[s3vmClassification]={
   c->Infinity,                             (* default value for the parameter C of SVM classification *)
   kernel->"linear",                        (* default kernel description *)
   bVarThreshold->0.0001,                   (* threshold on variance of obtained intercept values *)
-  implementation->svmClassificationPython, (* default implementation of the optimization solver procedure *)
+  implementation->s3vmClassificationAMPL,   (* default implementation of the optimization solver procedure *)
   verbose->False,                          (* default verbosity *)
-  classifierOutput->"real",                 (* output of the procedure *)
-  classifierInput->"pattern"};              (* input of the decision function *)
+  classifierOutput->"real",                (* output of the procedure *)
+  classifierInput->"pattern"};             (* input of the decision function *)
 
-
-
-
-
-Options[svmRegression]={
-  kernel->"linear",                        (* default kernel description *)
-  implementation->svmRidgeRegression,      (* default implementation of svmRegression *)
-  verbose->False};                         (* default verbosity *)
-
-Options[svmRidgeRegression]={
-  lambda->1,                                (* default value for the parameter lambda of SVM ridge regression *)
-  matrixInverter->Inverse};                 (* default implementation of the matrix inversion procedure *)
-
-Options[svmLinearInsensitiveRegression]={
-  epsilon->.1,                              (* default value for the parameter epsilon of SVM insensitive regression *)
-  c->100,                                   (* default value for the parameter C of SVM insensitive regression *)
-  optimizer->svmPythonOptimizer};           (* default implementation of the optimization solver procedure *)
-
-Options[svmClassificationSamplePlot]={
+Options[s3vmClassificationSamplePlot]={
   positiveColor->Green,                    (* default color for positive points *)
   negativeColor->Blue,                     (* default color for negative points *)
   positiveSize->5,                          (* default size for positive points *)
   negativeSize->5};                         (* default size for negative points *)
 
-Options[svmDecisionFunctionPlot]={
+Options[s3vmDecisionFunctionPlot]={
   frontier->True,                               (* default visualization of frontier *)
   margin->False,                                (* default visualization of margins *)
   shading->False,                               (* default visualization of shading *)
@@ -113,17 +86,9 @@ Options[svmDecisionFunctionPlot]={
   marginStyle->{Black},                         (* default margin style *)
   frontier3DStyle->{Blue,Opacity[.5]},          (* default 3D frontier style *)
   margin3DStyle->{Gray,Opacity[.1]},            (* default 3D margin style *)
-  shadingColors->{positiveColor,negativeColor}/.Options[svmClassificationSamplePlot],  (* default shading colors *)
+  shadingColors->{positiveColor,negativeColor}/.Options[s3vmClassificationSamplePlot],  (* default shading colors *)
   shadingContours->100                          (* default number of shading components*)
 };
-
-
-
-
-
-
-
-
 
 
 
@@ -151,15 +116,6 @@ svmPythonAvailable = Run["export PATH=" <> $UserBaseDirectory <> "/Applications/
     ":$PATH;python " <> $UserBaseDirectory <> "/Applications/svMathematica/" <> "test.py" ] == 0;
 svmSVMLightAvailable = Run["export PATH=" <> $UserBaseDirectory <> "/Applications/svMathematica/" <> 
     ":$PATH;svm_learn " <> $UserBaseDirectory <> "/Applications/svMathematica/" <> "svm3000.dat" ] == 0;
-
-
-
-
-
-
-
-
-
 
 
 (* ::Section:: *)
@@ -210,15 +166,6 @@ svmUnbalancedClassificationLabelsQ[
   
   Return[ cp + cm == Length[labels] ];
 ];
-
-(* svmRegressionLabelsQ checks wether or not the specified argument
-   is a list of regression labels, that is each element in the list
-   itself is a number.
-
-   returns: True if the specified argument is a list of regression labels,
-            False otherwise.
-*)
-svmRegressionLabelsQ[labels_]:=Head[labels]==List && Max[Length/@labels]==0
 
 (* svmPatternsQ checks wether or not the specified argument
    is a list of patterns, that is each element in the list itself
@@ -301,66 +248,6 @@ svmGetKernel[
 	   ];
 	Message[svm::unknownKernel,kernelDesc];
 ];
-(*svmGetKernel[
-    kernelDesc_List  (* kernel description *)
-  ]:=Block[
-  {p,     (* degree in polynomial *)
-   sigma, (* standard deviation in gaussian *)
-   k,     (* multiplier in hyperbolic *)
-   q      (* additive term in hyperbolic *)
-  },
-  If[ kernelDesc[[1]] == "polynomial" && Length[kernelDesc] == 2,
-    p = kernelDesc[[2]];
-    Return[{
-      Evaluate[(#1.#2+1)^p]&,
-      "(sum{k in 1..n}x[i,k]*x[j,k]+1)^"<>ToString[p]<>";",
-      "from numpy import dot\ndef kernel(x1, x2):\n\treturn (dot(x1,x2)+1)**"<>ToString[p]<>"\n",
-	  " -t 1 -d "<>ToString[p]<>"-r 1 -s 1"}
-    ];
-  ];
-  If[ kernelDesc[[1]] == "polynomialHomogeneous" && Length[kernelDesc] == 2,
-    p = kernelDesc[[2]];
-    Return[{
-      Evaluate[(#1.#2)^p]&,
-      "(sum{k in 1..n}x[i,k]*x[j,k])^"<>ToString[p]<>";",
-      "from numpy import dot\ndef kernel(x1, x2):\n\treturn (dot(x1,x2))**"<>ToString[p]<>"\n",
-      "-t 1 -d "<>ToString[p]<>" -r 0 -s 1 "}
-    ];
-  ];
-  If[ kernelDesc[[1]] == "gaussian" && Length[kernelDesc]==2,
-    sigma = kernelDesc[[2]];
-    Return[{
-      Evaluate[Exp[-1*Norm[#2-#1]^2/(2sigma^2)]]&,
-      "exp(-1*(sum{k in 1..n}(x[i,k]-x[j,k])^2)/(2*"<>ToString[sigma^2]<>"));\n",
-      "from numpy import array,dot, exp\n"<>
-        "def kernel(x1, x2):\n"<>
-        "\tx=array([x1[i]-x2[i] for i in range(len(x1))])\n"<>
-        "\treturn exp(-1*dot(x,x.conj())/(2*"<>ToString[sigma^2]<>"))\n",
-	  "-t 2 -g "<>ToString[sigma]}
-	];
-  ];
-  If[ kernelDesc[[1]] == "hyperbolic" && Length[kernelDesc]==3,
-    k = kernelDesc[[2]];
-    q = kernelDesc[[3]];
-    Return[{
-      Evaluate[Tanh[k #1.#2 +q]]&,
-      "tanh("<>ToString[k]<>" * (sum{k in 1..n}x[i,k]*x[j,k]) + "<>ToString[q]<>");",
-      "from numpy import dot, tanh\n"<>
-        "def kernel(x1, x2):\n"<>
-        "\treturn tanh("<>ToString[k]<>" * dot(x1, x2) + "<>ToString[q]<>")",
-	  "-t 3 -s "<>ToString[k]<>" -r "<>ToString[q]	
-	}];
-  ];
-  If[ kernelDesc[[1]] == "custom" && Length[kernelDesc] == 4 && Head[kernelDesc[[2]]] == Function 
-      && Head[kernelDesc[[3]]] == String && Head[kernelDesc[[4]]] == String,
-    Return[{
-      kernelDesc[[2]],
-      kernelDesc[[3]],
-      kernelDesc[[4]]
-    }];
-  ];
-  Message[svm::unknownKernel,kernelDesc];
-];*)
 
 (* svmFilterOptions is used in order to filter out from a list of replacement
    rules those actually used as options in a particular function.
@@ -452,14 +339,6 @@ svmChop[x_,c_]:=Block[{tol},
   If[c-x<tol,Return[c]];
   Return[x];
 ]
-
-
-
-
-
-
-
-
 
 
 
@@ -739,9 +618,10 @@ svmDecisionFunctionPlot[
 
    Returns: a list of the optimal values for the SVM classification optimization problem.
 *)
-svmClassification[
+s3vmClassification[
     patterns_?svmPatternsQ,            (* example patterns *)
     labels_?svmClassificationLabelsQ,  (* example labels *)
+    unlabeledPatterns_?svmPatternsQ    (* unlabeled patterns *)
     opts___                            (* options to be possibly parsed *)
   ]:=Block[
   {svmClassFunc  (* implementation to be called *)
@@ -749,8 +629,17 @@ svmClassification[
     If[Length[patterns] != Length[labels],
       Message[svm::unequalLength, patterns, labels];
     ];
-    svmClassFunc = implementation /. {opts} /. Options[svmClassification];
-    Return[svmClassFunc[patterns, labels, opts]];
+
+    If[unlabeledPatterns == {},
+      Message[svm::emptyUnlabeledSet, unlabeledPatterns]; (* TODO fare *)
+    ];
+
+    If[Length[patterns[[1]]] != Length[unlabeledPatterns[[1]]],
+      Message[svm::differentPatternsDimension, patterns, unlabeledPatterns]; (* TODO fare *)
+    ];
+
+    svmClassFunc = implementation /. {opts} /. Options[s3vmClassification];
+    Return[svmClassFunc[patterns, labels, unlabeledPatterns, opts]];
   ];
 
 (* svmClassificationMaximize is an implementation of svmClassification
@@ -759,7 +648,7 @@ svmClassification[
 
    Returns: a list of the optimal values for the SVM classification optimization problem.
 *)
-svmClassificationMaximize[
+svmClassificationMaximize[ (* TODO fare *)
     patterns_?svmPatternsQ,            (* example patterns *)
     labels_?svmClassificationLabelsQ,  (* example labels *)
     opts___                            (* options to be possibly parsed *)
@@ -792,9 +681,10 @@ svmClassificationMaximize[
 
    Returns: a list of the optimal values for the SVM classification optimization problem.
 *)
-svmClassificationAMPL[
+s3vmClassificationAMPL[
     patterns_?svmPatternsQ,            (* example patterns *)
     labels_?svmClassificationLabelsQ,  (* example labels *)
+    unlabeledPatterns_?svmPatternsQ    (* unlabeled patterns *)
     opts___                            (* options to be possibly parsed *)
   ]:=Block[
   {stdin,       (* string containing the on-the-fly generated AMPL program to be run *)
@@ -807,7 +697,8 @@ svmClassificationAMPL[
    cSp,           (* parameter C of the SVM classification algorithm *)
    retCode,     (* return code of AMPL *)
    retValue,    (* return value of this function *)
-   m,           (* number of examples to be learnt *)
+   m,           (* number of labeled examples to be learnt *)
+   mShad,       (* number of unlabeled examples *)
    n,           (* dimenstion of each pattern *)
    isVerbose      (* flag triggerning verbose output *)
    (* global svmAMPLAvailable: flag triggering AMPL availability *)
@@ -817,10 +708,11 @@ svmClassificationAMPL[
   ];
   
   m = Length[patterns];
+  mShad = Length[unlabeledPatterns];
   n = Length[patterns[[1]]];
-  kernelDesc=kernel /. {opts} /. Options[svmClassification];
+  kernelDesc=kernel /. {opts} /. Options[s3vmClassification];
   kernelStr = svmGetKernel[kernelDesc][[2]];
-  cSp = c /. {opts} /. Options[svmClassification];
+  cSp = c /. {opts} /. Options[s3vmClassification];
   stdin = "param m integer > 0 default " <> ToString[m]<>"; # number of sample points\n";
   stdin = stdin <> "param n integer > 0 default " <> ToString[n]<>"; # sample space dimension\n";
   If[ cSp < Infinity,
@@ -1105,205 +997,6 @@ svmGetClassifier[
 
 
 (* ::Section:: *)
-(*Regression*)
-
-
-(* svmRegression is the interface method called in order to
-   learn a SVM regressor. The method forwards its arguments to
-   a chosen implementation. Each implementation basically specifies
-   a different way to solve the constrained optimization problem
-   at the core of SVM regression.
-
-   Returns: a list of the optimal values for the SVM regression optimization problem.
-*)
-svmRegression[
-    patterns_?svmPatternsQ,            (* example patterns *)
-    labels_?svmRegressionLabelsQ,      (* example labels *)
-    opts___                            (* options to be possibly parsed *)
-  ]:=Block[
-  {svmRegrFunc  (* implementation to be called *)
-  },
-  If[Length[patterns] != Length[labels],
-    Message[svm::unequalLength, patterns, labels];
-  ];
-  svmRegrFunc = implementation /. {opts} /. Options[svmRegression];
-  Return[svmRegrFunc[patterns, labels, opts]];
-];
-
-svmPythonInverter[
-    m_?MatrixQ,
-    opts___
-  ]:=Block[
-  {stdin,
-   input,
-   output,
-   isVerbose,
-   retCode,
-   retValue
-  },
-
-  stdin = "from numpy import array, linalg\n";
-  stdin = stdin <> "def print_array(a):\n";
-  stdin = stdin <> "\tprint \"{\",\n";
-  stdin = stdin <> "\tfor e in a[:-1]:\n";
-  stdin = stdin <> "\t\tprint e , \", \",\n";
-  stdin = stdin <> "\tprint a[-1], \"}\",\n";
-
-  stdin = stdin <> "a = array(" <> StringReplace[ToString[m//AccountingForm],{"{"->"[", "}"->"]"}] <> ")\n";
-  stdin = stdin <> "b = linalg.inv(a)\n";
-  stdin = stdin <> "print \"{\",\n";
-  stdin = stdin <> "for r in b[:-1]:\n";
-  stdin = stdin <> "\tprint_array(r)\n";
-  stdin = stdin <> "\tprint \", \",\n";
-  stdin = stdin <> "print_array(b[-1])\n";
-  stdin = stdin <> "print \"}\"\n";
-
-  isVerbose = verbose /. {opts} /. Options[svmRegression];
-  If[ isVerbose,
-    Print[stdin]
-  ];
-
-  input = OpenWrite[];
-  WriteString[input,stdin];
-  Close[input];
-  output = OpenWrite[];
-  Close[output];
-  retCode = Run["export PATH=" <> $UserBaseDirectory <> "/Applications/svMathematica/" <> ":$PATH;python " <> input[[1]] <> " > "<>output[[1]]];
-  retValue=If[ retCode == 0,
-    ReadList[output[[1]], Record][[-1]]//ToExpression,
-    $Failed
-  ];
-  DeleteFile[input[[1]]];
-  DeleteFile[output[[1]]];
-  If[isVerbose,
-    Print[input[[1]]];
-    Print[output[[1]]];
-  ];
-  Return[retValue];
-
-]
-
-svmRidgeRegression[
-    patterns_?svmPatternsQ,
-    labels_?svmRegressionLabelsQ,
-    opts___
-]:=Block[
-  {lambdaSp,
-   m,
-   u,
-   kernelDesc,
-   kernelF,
-   ki,
-   invFunc,
-   kiinv,
-   b,
-   alpha
-  },
-  
-  lambdaSp = lambda /. {opts} /. Options[svmRidgeRegression];
-  m = Length[patterns];
-  u = Table[1, {m}];
-  kernelDesc = kernel /. {opts} /. Options[svmRegression];
-  kernelF = svmGetKernel[kernelDesc][[1]];
-  ki = Outer[kernelF, patterns, patterns, 1] + lambdaSp IdentityMatrix[m];
-  invFunc = matrixInverter /. {opts} /. Options[svmRidgeRegression];
-  kiinv = invFunc[ki];
-
-  b = (u . kiinv . labels) / (u . kiinv . u);
-
-  alpha = 2 lambdaSp kiinv . (labels - b u);
-  Return[
-    Function[{q},
-      Evaluate[
-        1/(2 lambdaSp) alpha . (Evaluate /@ kernelF[Hold[#],Hold[q]]&/@patterns)+b
-      ]
-    ]//ReleaseHold
-  ];
-];
-
-svmLinearInsensitiveRegression[
-    patterns_?svmPatternsQ,            (* example patterns *)
-    labels_?svmRegressionLabelsQ,      (* example labels *)
-    opts___                            (* options to be possibly parsed *)
-]:=Block[
-  {kernelDesc,
-   kernelF,
-   qBase,
-   q,
-   epsilonSp,
-   p,
-   m,
-   a,
-   b,
-   g,
-   cSp,
-   h,
-   optimizerF,
-   alpha,
-   alphaHat,
-   pos,
-   bTbl,bTblHat,
-   bVarThresholdSp
-  },
-  kernelDesc = kernel /. {opts} /. Options[svmRegression];
-  kernelF = svmGetKernel[kernelDesc][[1]];
-  qBase = Outer[kernelF, patterns, patterns, 1];
-  q = Join[Join[#, -#]& /@ qBase, Join[-#, #]& /@ qBase];
-  epsilonSp = epsilon /. {opts} /. Options[svmLinearInsensitiveRegression];
-  p = Join[epsilonSp -labels, epsilonSp + labels];
-  m = Length[labels];
-  a = Join[Table[1, {m}], Table[-1, {m}]];
-  b = 0;
-  cSp = c /. {opts} /. Options[svmLinearInsensitiveRegression];
-  If[cSp<Infinity,
-    g = Join[-IdentityMatrix[2m],IdentityMatrix[2m]];
-    h = Join[Table[0, {2m}], Table[cSp, {2m}]],
-  (* else *)
-    g = -IdentityMatrix[2m];
-    h = Table[0, {2m}];
- ];
-  
-  optimizerF = optimizer /. {opts} /. Options[svmLinearInsensitiveRegression];
-  {alpha, alphaHat} = Partition[optimizerF[q, p, a, b, g, h, opts], m];
-
-
-  pos = Flatten[Position[alpha, \[Alpha]_ /; 0<\[Alpha]<cSp]];
-  bTbl = labels[[#]]& /@ pos - 
-         (Function[{i}, kernelF[#, patterns[[i]]]& /@ patterns] /@ pos).(alpha - alphaHat) - epsilonSp;
-
-  pos = Flatten[Position[alphaHat, \[Alpha]_ /; 0<\[Alpha]<cSp]];
-  bTblHat = labels[[#]]& /@ pos - 
-         (Function[{i}, kernelF[#, patterns[[i]]]& /@ patterns] /@ pos).(alpha - alphaHat) + epsilonSp;
-
-
-
-  bVarThresholdSp = bVarThreshold /. {opts} /. Options[svmRegression];
-  If[ Variance[Join[bTbl,bTblHat]] > bVarThresholdSp,
-    Message[svm::exceedBVarThreshold,bVarThresholdSp,bTbl]
-  ];
-  b = Mean[Join[bTbl,bTblHat]];
-
-  Return[
-    Function[{q},
-      Evaluate[
-        (alpha - alphaHat).(Evaluate /@ kernelF[Hold[#], Hold[q]]&/@patterns)+b
-      ]
-    ]//ReleaseHold
-  ];
-
-];
-
-
-
-
-
-
-
-
-
-
-
-(* ::Section:: *)
 (*Package finalization*)
 
 
@@ -1327,12 +1020,6 @@ Protect[
   svmClassificationSVMLight,
   svmGetClassifier,
   svmClassificationSamplePlot,
-  svmRegressionSamplePlot,
-  svmRegression,
-  svmRegressionMaximize,
-  svmRegressionAMPL,
-  svmRegressionPython,
-  lambda,
   matrixInverter
 ];
 

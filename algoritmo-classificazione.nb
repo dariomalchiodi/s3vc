@@ -1,0 +1,447 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     16962,        437]
+NotebookOptionsPosition[     16266,        409]
+NotebookOutlinePosition[     16725,        427]
+CellTagsIndexPosition[     16682,        424]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"shadowedSvm", "[", 
+   RowBox[{"x_", ",", "y_", ",", "xShad_", ",", "c_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "notebDir", ",", "stdin", ",", "i", ",", "k", ",", "retCode", ",", "m", 
+      ",", "mShad", ",", "n", ",", "stream", ",", "directorySeparator", ",", 
+      "environmentCommand", ",", "commandSeparator", ",", "externalCommand"}],
+      "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"m", "=", 
+      RowBox[{"Length", "[", "x", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"mShad", "=", 
+      RowBox[{"Length", "[", "xShad", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"n", "=", 
+      RowBox[{"Length", "[", 
+       RowBox[{"x", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"notebDir", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\"\<FileName\>\"", "/.", 
+          RowBox[{"NotebookInformation", "[", 
+           RowBox[{"SelectedNotebook", "[", "]"}], "]"}]}], ")"}], "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "//", "ToFileName"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"SetDirectory", "[", "notebDir", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", "\"\<param m integer > 0 default \>\""}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", 
+       RowBox[{"ToString", "[", "m", "]"}]}]}], " ", ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", "\"\<; # number of labeled sample points\\n\>\""}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<param ms integer > 0 default \>\""}]}], ";",
+      "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", 
+       RowBox[{"ToString", "[", "mShad", "]"}]}]}], " ", ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", "\"\<; # number of shadowed sample points\\n\>\""}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<param n integer > 0 default \>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", 
+       RowBox[{"ToString", "[", "n", "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<; # sample space dimension\\n\\n\>\""}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<param C integer > 0 default \>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", 
+       RowBox[{"ToString", "[", "c", "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<;\\n\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<param x {1..m,1..n}; # labeled sample points\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<param xs {1..ms,1..n}; # shadowed sample points\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<param y {1..m}; # sample labels\\n\>\""}]}],
+      ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<param dot{i in 1..m,j in 1..m}:=sum{k in 1..n}x[i,k]*x[j,k];\\n\>\
+\""}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<param dots{i in 1..ms,j in 1..ms}:=sum{k in 1..n}xs[i,k]*xs[j,k];\
+\\n\>\""}]}], ";", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<param dotmix{i in 1..m,j in 1..ms}:=sum{k in 1..n}x[i,k]*xs[j,k];\
+\\n\\n\>\""}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<var alpha{1..m}>=0 <=C;\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<var gamma{1..ms}>=0;\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<var delta{1..ms}>=0;\\n\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<maximize quadratic_form:\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<sum{i in 1..m} alpha[i]\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<-1/2*sum{i in 1..m,j in 1..m}alpha[i]*alpha[j]*y[i]*y[j]*dot[i,j]\
+\\n\>\""}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<-1/2*sum{i in 1..ms,j in \
+1..ms}(gamma[i]-delta[i])*(gamma[j]-delta[j])*dots[i,j]\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<-sum{i in 1..m,j in \
+1..ms}alpha[i]*y[i]*(gamma[j]-delta[j])*dotmix[i,j];\\n\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<subject to linear_constraint:\\n\>\""}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<sum{i in 1..m} alpha[i]*y[i] + sum{j in 1..ms}(gamma[j]-delta[j]) \
+= 0;\\n\\n\>\""}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", "\"\<subject to gamma_delta_constraint:\\n\>\""}]}], ";",
+      "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<sum{j in 1..ms}(gamma[j]+delta[j]) <= 1;\\n\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<data;\\n\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<param\\tx:\\t\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"k", "=", "1"}], ",", 
+       RowBox[{"k", "\[LessEqual]", "n"}], ",", 
+       RowBox[{"k", "++"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"stdin", "=", 
+         RowBox[{"stdin", "<>", 
+          RowBox[{"ToString", "[", "k", "]"}], "<>", "\"\<\\t\>\""}]}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<:=\\n\>\""}]}], ";", "\[IndentingNewLine]", 
+     
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"i", "=", "1"}], ",", 
+       RowBox[{"i", "\[LessEqual]", "m"}], ",", 
+       RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"stdin", "=", 
+         RowBox[{"stdin", "<>", 
+          RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<\\t\>\""}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"k", "=", "1"}], ",", 
+          RowBox[{"k", "\[LessEqual]", "n"}], ",", 
+          RowBox[{"k", "++"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"stdin", "=", 
+            RowBox[{"stdin", "<>", 
+             RowBox[{"ToString", "[", 
+              RowBox[{
+               RowBox[{"x", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], "[", 
+               RowBox[{"[", "k", "]"}], "]"}], "]"}], "<>", "\"\<\\t\>\""}]}],
+            ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"stdin", "=", 
+         RowBox[{"stdin", "<>", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"i", "\[Equal]", "m"}], ",", "\"\<;\\n\\n\>\"", ",", 
+            "\"\<\\n\>\""}], "]"}]}]}], ";"}]}], "\[IndentingNewLine]", "]"}],
+      ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<param\\txs:\\t\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"k", "=", "1"}], ",", 
+       RowBox[{"k", "\[LessEqual]", "n"}], ",", 
+       RowBox[{"k", "++"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"stdin", "=", 
+         RowBox[{"stdin", "<>", 
+          RowBox[{"ToString", "[", "k", "]"}], "<>", "\"\<\\t\>\""}]}], 
+        ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<:=\\n\>\""}]}], ";", "\[IndentingNewLine]", 
+     
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"i", "=", "1"}], ",", 
+       RowBox[{"i", "\[LessEqual]", "mShad"}], ",", 
+       RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"stdin", "=", 
+         RowBox[{"stdin", "<>", 
+          RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<\\t\>\""}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"k", "=", "1"}], ",", 
+          RowBox[{"k", "\[LessEqual]", "n"}], ",", 
+          RowBox[{"k", "++"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"stdin", "=", 
+            RowBox[{"stdin", "<>", 
+             RowBox[{"ToString", "[", 
+              RowBox[{
+               RowBox[{"xShad", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], "[", 
+               RowBox[{"[", "k", "]"}], "]"}], "]"}], "<>", "\"\<\\t\>\""}]}],
+            ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"stdin", "=", 
+         RowBox[{"stdin", "<>", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"i", "\[Equal]", "mShad"}], ",", "\"\<;\\n\\n\>\"", ",", 
+            "\"\<\\n\>\""}], "]"}]}]}], ";"}]}], "\[IndentingNewLine]", "]"}],
+      ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<param y :=\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"i", "=", "1"}], ",", 
+       RowBox[{"i", "\[LessEqual]", "m"}], ",", 
+       RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"stdin", "=", 
+         RowBox[{"stdin", "<>", 
+          RowBox[{"ToString", "[", "i", "]"}], "<>", "\"\<\\t\>\"", "<>", 
+          RowBox[{"ToString", "[", 
+           RowBox[{"y", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "]"}]}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"stdin", "=", 
+         RowBox[{"stdin", "<>", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"i", "\[Equal]", "m"}], ",", "\"\<;\\n\\n\>\"", ",", 
+            "\"\<\\n\>\""}], "]"}]}]}], ";"}]}], "\[IndentingNewLine]", "]"}],
+      ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<option solver snopt;\\n\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<solve;\\n\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<printf: \\\"{{\\\";\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<printf {i in 1..m-1}:\\\"%f,\\\",alpha[i];\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{"stdin", "<>", "\"\<printf: \\\"%f},{\\\",alpha[m];\\n\>\""}]}],
+      ";", "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<printf {i in 1..ms-1}:\\\"%f,\\\",gamma[i];\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", "\"\<printf: \\\"%f},{\\\",gamma[ms];\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", 
+       "\"\<printf {i in 1..ms-1}:\\\"%f,\\\",delta[i];\\n\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stdin", "=", 
+      RowBox[{
+      "stdin", "<>", "\"\<printf: \\\"%f}}\\\\n\\\",delta[ms];\\n\>\""}]}], 
+     ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"stream", "=", 
+      RowBox[{"OpenWrite", "[", "\"\<temp-ampl.mod\>\"", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"WriteString", "[", 
+      RowBox[{"stream", ",", "stdin"}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Close", "[", "stream", "]"}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"$OperatingSystem", "\[Equal]", "\"\<Windows\>\""}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"directorySeparator", "=", "\"\<; \>\""}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"environmentCommand", "=", "\"\<set\>\""}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"commandSeparator", "=", "\"\< & \>\""}]}], 
+        "\[IndentingNewLine]", ")"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"(", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"directorySeparator", "=", " ", "\"\<: \>\""}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"environmentCommand", "=", " ", "\"\<export\>\""}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"commandSeparator", "=", " ", "\"\<; \>\""}]}], 
+        "\[IndentingNewLine]", ")"}]}], "\[IndentingNewLine]", "]"}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"externalCommand", "=", 
+      RowBox[{
+      "environmentCommand", "<>", "\"\< PATH=.\>\"", "<>", 
+       "directorySeparator", "<>", "\"\<$PATH\>\"", "<>", "commandSeparator", 
+       "<>", "\"\<ampl < temp-ampl.mod > temp-ampl-result\>\""}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"retCode", "=", 
+      RowBox[{"Run", "[", "externalCommand", "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"ResetDirectory", "[", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"retCode", "\[NotEqual]", "0"}], ",", 
+       RowBox[{"Return", "[", "$Failed", "]"}]}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Return", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"ReadList", "[", 
+         RowBox[{"\"\<temp-ampl-result\>\"", ",", "Record"}], "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{"-", "1"}], "]"}], "]"}], "//", "ToExpression"}], "]"}], 
+     ";"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}]}]], "Input",\
+
+ CellChangeTimes->{{3.560244986200782*^9, 3.5602449938223047`*^9}, 
+   3.5602450682693377`*^9, {3.560245128132217*^9, 3.56024515098825*^9}, {
+   3.5602451884035892`*^9, 3.560245305616364*^9}, {3.560245343990759*^9, 
+   3.560245345001563*^9}, {3.560245403876829*^9, 3.560245517861452*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["$UserBaseDirectory"], "Input",
+ CellChangeTimes->{{3.5602459298826714`*^9, 3.560245934020993*^9}}],
+
+Cell[BoxData["\<\"/Users/malchiodi/Library/Mathematica\"\>"], "Output",
+ CellChangeTimes->{3.560245934519898*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["$InstallationDirectory"], "Input",
+ CellChangeTimes->{{3.560245954433041*^9, 3.560245957524519*^9}}],
+
+Cell[BoxData["\<\"/Users/malchiodi/Applications/Mathematica.app\"\>"], \
+"Output",
+ CellChangeTimes->{3.560245957929851*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["$BaseDirectory"], "Input",
+ CellChangeTimes->{{3.560245974065222*^9, 3.5602459766362658`*^9}}],
+
+Cell[BoxData["\<\"/Library/Mathematica\"\>"], "Output",
+ CellChangeTimes->{3.5602459772221518`*^9}]
+}, Open  ]]
+},
+WindowSize->{1097, 862},
+WindowMargins->{{Automatic, 155}, {111, Automatic}},
+Magnification:>FEPrivate`If[
+  FEPrivate`Equal[FEPrivate`$VersionNumber, 6.], 1.25, 1.25 Inherited],
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 5, \
+2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 14915, 359, 2086, "Input"],
+Cell[CellGroupData[{
+Cell[15497, 383, 112, 1, 33, "Input"],
+Cell[15612, 386, 113, 1, 33, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15762, 392, 114, 1, 33, "Input"],
+Cell[15879, 395, 124, 2, 33, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16040, 402, 108, 1, 33, "Input"],
+Cell[16151, 405, 99, 1, 33, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
