@@ -1,11 +1,10 @@
-- esperimenti two moons
+﻿- esperimenti two moons
 - leggere survey e andare a vedere lavori citati su SVM per:
   * ricavare data set e vedere come si comporta il nostro algoritmo
   * controllare se qualcosa è già stato fatto
 - package mathematica:
   * incorporare algoritmo in algoritmo-classificazione.nb dentro a
     s3vmClassificationAMPL dentro a init.m
-- apprendimento di esensione di concetti
+- apprendimento di estensione di concetti
 - apprendimento di shadowed set
-- che cosa succede se cerchiamo di re-introdurre l'ipotesi di non far passare
-  la funzione di decisione in zone dense della distribuzione dei pattern
+- che cosa succede se cerchiamo di re-introdurre l'ipotesi di non far passare la funzione di decisione in zone dense della distribuzione dei pattern
