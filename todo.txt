@@ -1,4 +1,4 @@
-﻿- esperimenti two moons
+﻿- esperimenti two moons -> Chapelle, Sindhwani, Keerthi 2008
 - leggere survey e andare a vedere lavori citati su SVM per:
   * ricavare data set e vedere come si comporta il nostro algoritmo
   * controllare se qualcosa è già stato fatto

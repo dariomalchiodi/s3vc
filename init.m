@@ -675,11 +675,11 @@ svmClassificationMaximize[ (* TODO fare *)
   Return[ svmGetClassifier[ patterns, labels, alpha /. solution[[2]], opts ] ];
 ];
 
-(* svmClassificationAMPL is an implementation of svmClassification
+(* s3vmClassificationAMPL is an implementation of s3vmClassification
    relying on AMPL and SNOPT in order to solve the optimization problem at
-   the core of SVM classification.
+   the core of S3VM classification.
 
-   Returns: a list of the optimal values for the SVM classification optimization problem.
+   Returns: a list of the optimal values for the S3VM classification optimization problem.
 *)
 s3vmClassificationAMPL[
     patterns_?svmPatternsQ,            (* example patterns *)
@@ -693,14 +693,14 @@ s3vmClassificationAMPL[
    i,           (* cycle variable *)
    k,           (* cycle variable *)
    kernelDesc,  (* kernel description *)
-   kernelStr,      (* kernel of the SVM classification problem, as a string containing AMPL code *)
-   cSp,           (* parameter C of the SVM classification algorithm *)
+   kernelStr,   (* kernel of the SVM classification problem, as a string containing AMPL code *)
+   cSp,         (* parameter C of the SVM classification algorithm *)
    retCode,     (* return code of AMPL *)
    retValue,    (* return value of this function *)
    m,           (* number of labeled examples to be learnt *)
    mShad,       (* number of unlabeled examples *)
    n,           (* dimenstion of each pattern *)
-   isVerbose      (* flag triggerning verbose output *)
+   isVerbose    (* flag triggerning verbose output *)
    (* global svmAMPLAvailable: flag triggering AMPL availability *)
   },
   If[svmAMPLAvailable == False,
@@ -713,19 +713,24 @@ s3vmClassificationAMPL[
   kernelDesc=kernel /. {opts} /. Options[s3vmClassification];
   kernelStr = svmGetKernel[kernelDesc][[2]];
   cSp = c /. {opts} /. Options[s3vmClassification];
-  stdin = "param m integer > 0 default " <> ToString[m]<>"; # number of sample points\n";
-  stdin = stdin <> "param n integer > 0 default " <> ToString[n]<>"; # sample space dimension\n";
+  stdin = "param m integer > 0 default " <> ToString[m] <> "; # number of labeled sample points\n";
+  stdin = stdin <> "param ms integer > 0 default " <> ToString[mShad] <> "; # numero of unlabeled sample points\n";
+  stdin = stdin <> "param n integer > 0 default " <> ToString[n] <> "; # sample space dimension\n\n";
   If[ cSp < Infinity,
     stdin = stdin <> "param c > 0 default " <> ToString[cSp] <> "; # trade-off constant\n\n";
   ];
-  stdin = stdin <> "param x {1..m,1..n}; # sample points\n";
+  stdin = stdin <> "param x {1..m,1..n}; # labeled sample points\n";
+  stdin = stdin <> "param xs {1..ms,1..n}; # unlabeled sample points\n";
   stdin = stdin <> "param y {1..m}; # sample labels\n";
   stdin = stdin <> "param dot{i in 1..m,j in 1..m}:="<>kernelStr<>"\n\n";
+(* Aggiungere il prodotto anche tra gli xs e quello misto: come? *)
   stdin = stdin <> "var alpha{1..m}>=0";
   If[ cSp < Infinity,
     stdin = stdin <> " <= " <> ToString[cSp]
   ];
   stdin = stdin <> ";\n";
+  stdin = stdin <> "var gamma{1..ms}>=0;\n";
+  stdin = stdin <> "var delta{1..ms}>=0;\n\n";
   stdin = stdin <> "maximize quadratic_form:\n";
   stdin = stdin <> "sum{i in 1..m} alpha[i]\n";
   stdin = stdin <> "-1/2*\n";
